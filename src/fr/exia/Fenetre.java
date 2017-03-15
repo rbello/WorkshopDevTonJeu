@@ -15,31 +15,8 @@ public class Fenetre extends JFrame {
 
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Window frame = new Window();
-					Panel.Animation anim = new MonAnimation();
-					Panel panel = new Panel(anim);
-					frame.addKeyListener(new KeyAdapter() {
-						public void keyPressed(KeyEvent e) {
-							if (e.getKeyCode() != KeyEvent.VK_ENTER) return;
-							System.out.println("Fire !!");
-						}
-					});
-					frame.getContentPane().add(panel);
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
+	private Panel panelAnimation;
+	
 	/**
 	 * Create the frame.
 	 */
@@ -52,11 +29,34 @@ public class Fenetre extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
+		Panel.Animation anim = new MonAnimation();
+		panelAnimation = new Panel(anim);
 	}
 
 	public void afficher() {
-		// TODO Auto-generated method stub
-		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Fenetre frame = new Fenetre();
+					
+					
+					frame.addKeyListener(new KeyAdapter() {
+						public void keyPressed(KeyEvent e) {
+							if (e.getKeyCode() != KeyEvent.VK_ENTER) return;
+							System.out.println("Fire !!");
+						}
+					});
+					frame.getContentPane().add(panelAnimation);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});		
+	}
+
+	public void ajouterComposantVisuel(ElementVisuel cp) {
+		panelAnimation.components.add(cp);
 	}
 
 }

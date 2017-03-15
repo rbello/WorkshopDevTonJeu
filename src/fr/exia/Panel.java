@@ -3,6 +3,8 @@ package fr.exia;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -10,6 +12,8 @@ import javax.swing.JPanel;
 public class Panel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
+	
+	public List<ElementVisuel> components = new ArrayList<>();
 
 	/**
 	 * @author rbello
@@ -19,7 +23,7 @@ public class Panel extends JPanel {
 		public double compute(double x);
 	}
 
-	private BufferedImage image;
+	private BufferedImage canon;
 	//private ImageIcon background;
 	private BufferedImage background;
 	private BufferedImage target;
@@ -33,7 +37,7 @@ public class Panel extends JPanel {
 		try {
 			//background = new ImageIcon(this.getClass().getResource("img/shstagewaterfall084slow1.gif"));
 			background = ImageIO.read(new File(Panel.class.getResource("img/hCwEjhG.png").toURI()));
-			image = ImageIO.read(new File(Panel.class.getResource("img/piq_50889_400x400.png").toURI()));
+			canon = ImageIO.read(new File(Panel.class.getResource("img/piq_50889_400x400.png").toURI()));
 			target = ImageIO.read(new File(Panel.class.getResource("img/piq_96231_400x400.png").toURI()));
 		}
 		catch (Throwable ex) {
@@ -48,8 +52,16 @@ public class Panel extends JPanel {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(background, 0, 0, 1200, 700, 0, 0, 1920, 1080, this);
-		g.drawImage(image, 20, 620, 20 + 50, 620 + 50, 0, 0, 204, 182, this);
-		g.drawImage(target, 600, 450, 600 + 40, 450 + 40, 0, 0, 400, 400, this);
+		
+		for (ElementVisuel vs : components) {
+			switch (vs.getClass().getSimpleName()) {
+			case "Canon":
+				g.drawImage(canon, vs.getPositionX(), vs.getPositionY(), vs.getPositionX() + 50, vs.getPositionY() + 50, 0, 0, 204, 182, this);
+			}
+		}
+		
+//		
+//		g.drawImage(target, 600, 450, 600 + 40, 450 + 40, 0, 0, 400, 400, this);
 	}
 
 }
